@@ -3,7 +3,7 @@
     const scriptTag = document.currentScript || document.querySelector('script[data-assistant-name][data-assistant-id]');
     const assistantName = scriptTag.getAttribute('data-assistant-name');
     const assistantId = scriptTag.getAttribute('data-assistant-id');
-    const bgColor = scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)'; // Default bg color
+    let bgColor = scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)'; // Default bg color
     const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db'; // Default text color
     const fontSize = scriptTag.getAttribute('data-font-size') || '16px'; // Default font size
 
@@ -23,6 +23,10 @@
                 <iframe id="chatbot-iframe" width="100%" height="100%" 
                     style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor}; color: ${textColor}; font-size: ${fontSize};" title="Custom Chatbot"></iframe>
             </div>
+        </div>
+        <div style="position:fixed;bottom:20px;left:20px;">
+            <label for="bg-color-picker" style="font-size:14px;color:${textColor};">Choose Chatbot Background Color: </label>
+            <input type="color" id="bg-color-picker" value="${bgColor}" style="cursor:pointer;">
         </div>
         <style>
           * {
@@ -72,4 +76,10 @@
         document.getElementById("assistant-embed").style.display = "none";
         document.getElementById("chatbot-icon").style.display = "flex";
     };
+
+    // Background color picker event listener
+    document.getElementById("bg-color-picker").addEventListener("input", function (event) {
+        const selectedColor = event.target.value;
+        document.getElementById("chatbot-iframe").style.backgroundColor = selectedColor;
+    });
 })();
