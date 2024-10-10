@@ -51,8 +51,10 @@
 
     // Change background color dynamically and persist it
     document.getElementById("bg-color-picker").addEventListener("input", function (event) {
-        const selectedColor = event.target.value;
-        document.getElementById("chatbot-iframe").style.backgroundColor = selectedColor;
-        localStorage.setItem('chatbot-bg-color', selectedColor);  // Save selected color to localStorage
-    });
+    const selectedColor = event.target.value;
+    console.log("Selected Color: ", selectedColor); // Debugging log
+    document.getElementById("chatbot-iframe").style.backgroundColor = selectedColor;
+    localStorage.setItem('chatbot-bg-color', selectedColor);  // Save selected color to localStorage
+});
+
 })();
