@@ -6,13 +6,6 @@
     const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db';
     const fontSize = scriptTag.getAttribute('data-font-size') || '16px';
 
-    // Logging initial values for debugging
-    console.log("Assistant Name:", assistantName);
-    console.log("Assistant ID:", assistantId);
-    console.log("Background Color:", bgColor);
-    console.log("Text Color:", textColor);
-    console.log("Font Size:", fontSize);
-
     const container = document.createElement("div");
     container.innerHTML = `
         <div id="assistant-embed-container">
@@ -27,7 +20,7 @@
                     </button>
                 </div>
                 <iframe id="chatbot-iframe" width="100%" height="100%" 
-                    style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor}; color: ${textColor}; font-size: ${fontSize};" title="Custom Chatbot"></iframe>
+                    style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor};" title="Custom Chatbot"></iframe>
             </div>
         </div>
     `;
@@ -46,10 +39,26 @@
             const iframeDocument = iframe.contentWindow.document;
 
             try {
+                // Apply the styles to the iframe content
                 iframeDocument.body.style.backgroundColor = bgColor;
                 iframeDocument.body.style.color = textColor;
                 iframeDocument.body.style.fontSize = fontSize;
+
                 console.log("Styles applied to iframe content: ", { bgColor, textColor, fontSize });
+
+                // Optionally apply custom styles to specific elements within the iframe
+                const customStyle = iframeDocument.createElement("style");
+                customStyle.innerHTML = `
+                    body {
+                        font-family: Arial, sans-serif;
+                        line-height: 1.5;
+                    }
+                    h1, h2, h3, h4, h5, h6 {
+                        color: ${textColor};
+                    }
+                `;
+                iframeDocument.head.appendChild(customStyle);
+
             } catch (error) {
                 console.error("Error applying styles to iframe content:", error);
             }
