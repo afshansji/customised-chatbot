@@ -52,4 +52,13 @@
         document.getElementById("assistant-embed").style.display = "none";
         document.getElementById("chatbot-icon").style.display = "flex";
     };
+
+    // Function to change iframe background color dynamically
+    window.addEventListener("message", function (event) {
+        if (event.data.type === "changeBgColor") {
+            localStorage.setItem('chatbot-bg-color', event.data.bgColor);  // Save bg color to localStorage
+            iframe.src = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}?bgColor=${encodeURIComponent(event.data.bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+        }
+    }, false);
+
 })();
