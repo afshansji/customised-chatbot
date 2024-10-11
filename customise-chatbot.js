@@ -20,7 +20,7 @@
                     </button>
                 </div>
                 <iframe id="chatbot-iframe" width="100%" height="100%" 
-                    style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor};" title="Custom Chatbot"></iframe>
+                    style="border: none; border-radius: 0 0 10px 10px;" title="Custom Chatbot"></iframe>
             </div>
         </div>
     `;
@@ -30,39 +30,11 @@
     const iframe = document.getElementById("chatbot-iframe");
 
     if (assistantName && assistantId) {
-        console.log("Loading iframe with URL:", `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`);
-        iframe.src = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
+        // Construct iframe URL with query parameters
+        const iframeSrc = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}?bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+        console.log("Loading iframe with URL:", iframeSrc);
+        iframe.src = iframeSrc;
 
-        // Apply styles once iframe loads
-        iframe.addEventListener("load", function () {
-            console.log("Iframe loaded successfully");
-            const iframeDocument = iframe.contentWindow.document;
-
-            try {
-                // Apply the styles to the iframe content
-                iframeDocument.body.style.backgroundColor = bgColor;
-                iframeDocument.body.style.color = textColor;
-                iframeDocument.body.style.fontSize = fontSize;
-
-                console.log("Styles applied to iframe content: ", { bgColor, textColor, fontSize });
-
-                // Optionally apply custom styles to specific elements within the iframe
-                const customStyle = iframeDocument.createElement("style");
-                customStyle.innerHTML = `
-                    body {
-                        font-family: Arial, sans-serif;
-                        line-height: 1.5;
-                    }
-                    h1, h2, h3, h4, h5, h6 {
-                        color: ${textColor};
-                    }
-                `;
-                iframeDocument.head.appendChild(customStyle);
-
-            } catch (error) {
-                console.error("Error applying styles to iframe content:", error);
-            }
-        });
     } else {
         console.error("Assistant name or ID not provided.");
     }
