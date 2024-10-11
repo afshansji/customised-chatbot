@@ -6,6 +6,13 @@
     const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db';
     const fontSize = scriptTag.getAttribute('data-font-size') || '16px';
 
+    // Logging initial values for debugging
+    console.log("Assistant Name:", assistantName);
+    console.log("Assistant ID:", assistantId);
+    console.log("Background Color:", bgColor);
+    console.log("Text Color:", textColor);
+    console.log("Font Size:", fontSize);
+
     const container = document.createElement("div");
     container.innerHTML = `
         <div id="assistant-embed-container">
@@ -29,18 +36,23 @@
 
     const iframe = document.getElementById("chatbot-iframe");
 
-    // Ensure iframe is loaded with correct styles
     if (assistantName && assistantId) {
+        console.log("Loading iframe with URL:", `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`);
         iframe.src = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
 
         // Apply styles once iframe loads
         iframe.addEventListener("load", function () {
+            console.log("Iframe loaded successfully");
             const iframeDocument = iframe.contentWindow.document;
 
-            // Force the iframe's content to adopt the styles passed via embed code
-            iframeDocument.body.style.backgroundColor = bgColor;
-            iframeDocument.body.style.color = textColor;
-            iframeDocument.body.style.fontSize = fontSize;
+            try {
+                iframeDocument.body.style.backgroundColor = bgColor;
+                iframeDocument.body.style.color = textColor;
+                iframeDocument.body.style.fontSize = fontSize;
+                console.log("Styles applied to iframe content: ", { bgColor, textColor, fontSize });
+            } catch (error) {
+                console.error("Error applying styles to iframe content:", error);
+            }
         });
     } else {
         console.error("Assistant name or ID not provided.");
@@ -48,12 +60,14 @@
 
     // Show the chatbot when the icon is clicked
     document.getElementById("chatbot-icon").onclick = function () {
+        console.log("Chatbot icon clicked");
         document.getElementById("assistant-embed").style.display = "block";
         document.getElementById("chatbot-icon").style.display = "none";
     };
 
     // Minimize the chatbot
     document.getElementById("minimize-button").onclick = function () {
+        console.log("Minimize button clicked");
         document.getElementById("assistant-embed").style.display = "none";
         document.getElementById("chatbot-icon").style.display = "flex";
     };
