@@ -2,7 +2,7 @@
     const scriptTag = document.currentScript || document.querySelector('script[data-assistant-name][data-assistant-id]');
     const assistantName = scriptTag.getAttribute('data-assistant-name');
     const assistantId = scriptTag.getAttribute('data-assistant-id');
-    let bgColor = localStorage.getItem('chatbot-bg-color') || scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)';
+    const bgColor = localStorage.getItem('chatbot-bg-color') || scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)';
     const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db';
     const fontSize = scriptTag.getAttribute('data-font-size') || '16px';
 
@@ -20,21 +20,28 @@
                     </button>
                 </div>
                 <iframe id="chatbot-iframe" width="100%" height="100%" 
-                    style="border: none; border-radius: 0 0 10px 10px;" title="Custom Chatbot"></iframe>
+                    style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor}; color: ${textColor}; font-size: ${fontSize};" title="Custom Chatbot"></iframe>
             </div>
-        </div>
-        <div style="position:fixed;bottom:20px;left:20px;">
-            <label for="bg-color-picker" style="font-size:14px;color:${textColor};">Choose Chatbot Background Color: </label>
-            <input type="color" id="bg-color-picker" value="${bgColor}" style="cursor:pointer;">
         </div>
     `;
 
     document.body.appendChild(container);
 
-    // Set the chatbot iframe source if assistantName and assistantId are provided
     const iframe = document.getElementById("chatbot-iframe");
+
+    // Ensure iframe is loaded with correct styles
     if (assistantName && assistantId) {
         iframe.src = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
+
+        // Apply styles once iframe loads
+        iframe.addEventListener("load", function () {
+            const iframeDocument = iframe.contentWindow.document;
+
+            // Force the iframe's content to adopt the styles passed via embed code
+            iframeDocument.body.style.backgroundColor = bgColor;
+            iframeDocument.body.style.color = textColor;
+            iframeDocument.body.style.fontSize = fontSize;
+        });
     } else {
         console.error("Assistant name or ID not provided.");
     }
@@ -50,19 +57,4 @@
         document.getElementById("assistant-embed").style.display = "none";
         document.getElementById("chatbot-icon").style.display = "flex";
     };
-
-    // Change background color dynamically and persist it
-    document.getElementById("bg-color-picker").addEventListener("input", function (event) {
-        const selectedColor = event.target.value;
-        document.getElementById("chatbot-iframe").style.backgroundColor = selectedColor;
-        localStorage.setItem('chatbot-bg-color', selectedColor);
-    });
-
-    // Ensure styles are applied when iframe content is loaded
-    iframe.addEventListener("load", function () {
-        const iframeDocument = iframe.contentWindow.document;
-        iframeDocument.body.style.backgroundColor = bgColor;  // Apply the background color to the iframe content
-        iframeDocument.body.style.color = textColor;          // Apply the text color to the iframe content
-        iframeDocument.body.style.fontSize = fontSize;        // Apply the font size to the iframe content
-    });
 })();
