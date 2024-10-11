@@ -20,7 +20,7 @@
                     </button>
                 </div>
                 <iframe id="chatbot-iframe" width="100%" height="100%" 
-                    style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor}; color: ${textColor}; font-size: ${fontSize};" title="Custom Chatbot"></iframe>
+                    style="border: none; border-radius: 0 0 10px 10px;" title="Custom Chatbot"></iframe>
             </div>
         </div>
         <div style="position:fixed;bottom:20px;left:20px;">
@@ -31,8 +31,10 @@
 
     document.body.appendChild(container);
 
+    // Set the chatbot iframe source if assistantName and assistantId are provided
+    const iframe = document.getElementById("chatbot-iframe");
     if (assistantName && assistantId) {
-        document.getElementById("chatbot-iframe").src = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
+        iframe.src = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
     } else {
         console.error("Assistant name or ID not provided.");
     }
@@ -51,10 +53,16 @@
 
     // Change background color dynamically and persist it
     document.getElementById("bg-color-picker").addEventListener("input", function (event) {
-    const selectedColor = event.target.value;
-    console.log("Selected Color: ", selectedColor); // Debugging log
-    document.getElementById("chatbot-iframe").style.backgroundColor = selectedColor;
-    localStorage.setItem('chatbot-bg-color', selectedColor);  // Save selected color to localStorage
-});
+        const selectedColor = event.target.value;
+        document.getElementById("chatbot-iframe").style.backgroundColor = selectedColor;
+        localStorage.setItem('chatbot-bg-color', selectedColor);
+    });
 
+    // Ensure styles are applied when iframe content is loaded
+    iframe.addEventListener("load", function () {
+        const iframeDocument = iframe.contentWindow.document;
+        iframeDocument.body.style.backgroundColor = bgColor;  // Apply the background color to the iframe content
+        iframeDocument.body.style.color = textColor;          // Apply the text color to the iframe content
+        iframeDocument.body.style.fontSize = fontSize;        // Apply the font size to the iframe content
+    });
 })();
