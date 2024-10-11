@@ -1,12 +1,22 @@
 (function () {
+    console.log("Chatbot script initialized.");
+
     const scriptTag = document.currentScript || document.querySelector('script[data-assistant-name][data-assistant-id]');
+    console.log("Script tag:", scriptTag);
+
     const assistantName = scriptTag.getAttribute('data-assistant-name');
     const assistantId = scriptTag.getAttribute('data-assistant-id');
-    
+    console.log("Assistant Name:", assistantName, "Assistant ID:", assistantId);
+
+    const storedBgColor = localStorage.getItem('chatbot-bg-color');
+    console.log("Stored background color from localStorage:", storedBgColor);
+
     // Default bgColor from localStorage or data attribute or fallback value
-    const bgColor = localStorage.getItem('chatbot-bg-color') || scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)';
+    const bgColor = storedBgColor || scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)';
     const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db';
     const fontSize = scriptTag.getAttribute('data-font-size') || '16px';
+
+    console.log("Background Color:", bgColor, "Text Color:", textColor, "Font Size:", fontSize);
 
     const container = document.createElement("div");
     container.innerHTML = `
@@ -26,12 +36,17 @@
             </div>
         </div>
     `;
+    console.log("Chatbot container created:", container);
+
     document.body.appendChild(container);
+    console.log("Chatbot container added to body.");
 
     const iframe = document.getElementById("chatbot-iframe");
+    console.log("Iframe element:", iframe);
 
     if (assistantName && assistantId) {
         const iframeSrc = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}?bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+        console.log("Iframe source URL:", iframeSrc);
         iframe.src = iframeSrc;
     } else {
         console.error("Assistant name or ID not provided.");
@@ -39,21 +54,27 @@
 
     // Show the chatbot when the icon is clicked
     document.getElementById("chatbot-icon").onclick = function () {
+        console.log("Chatbot icon clicked.");
         document.getElementById("assistant-embed").style.display = "block";
         document.getElementById("chatbot-icon").style.display = "none";
     };
 
     // Minimize the chatbot
     document.getElementById("minimize-button").onclick = function () {
+        console.log("Minimize button clicked.");
         document.getElementById("assistant-embed").style.display = "none";
         document.getElementById("chatbot-icon").style.display = "flex";
     };
 
-    // Change iframe background color dynamically
+    // Listen for postMessage events to change iframe background color dynamically
     window.addEventListener("message", function (event) {
+        console.log("Received postMessage event:", event.data);
         if (event.data.type === "changeBgColor") {
+            console.log("Changing background color to:", event.data.bgColor);
             localStorage.setItem('chatbot-bg-color', event.data.bgColor);
-            iframe.src = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}?bgColor=${encodeURIComponent(event.data.bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+            const newIframeSrc = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}?bgColor=${encodeURIComponent(event.data.bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+            console.log("Updated iframe source URL:", newIframeSrc);
+            iframe.src = newIframeSrc;
         }
     }, false);
 })();
