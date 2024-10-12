@@ -72,9 +72,24 @@
         if (event.data.type === "changeBgColor") {
             console.log("Changing background color to:", event.data.bgColor);
             localStorage.setItem('chatbot-bg-color', event.data.bgColor);
+
+            // Log current values before changing the iframe src
+            console.log("Current Assistant Name:", assistantName);
+            console.log("Current Assistant ID:", assistantId);
+            console.log("Current Text Color:", textColor);
+            console.log("Current Font Size:", fontSize);
+
             const newIframeSrc = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}?bgColor=${encodeURIComponent(event.data.bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
             console.log("Updated iframe source URL:", newIframeSrc);
             iframe.src = newIframeSrc;
+
+            // Verify if the iframe is successfully updated
+            iframe.onload = function () {
+                console.log("Iframe loaded successfully with new background color.");
+            };
+            iframe.onerror = function () {
+                console.error("Error loading iframe with new background color.");
+            };
         }
     }, false);
 })();
