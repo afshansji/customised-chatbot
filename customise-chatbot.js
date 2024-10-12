@@ -32,7 +32,9 @@
                     </button>
                 </div>
                 <iframe id="chatbot-iframe" width="100%" height="100%" 
-                    style="border: none; border-radius: 0 0 10px 10px;" title="Custom Chatbot"></iframe>
+        style="border: none; border-radius: 0 0 10px 10px; background-color: black;" 
+        title="Custom Chatbot"></iframe>
+
             </div>
         </div>
     `;
