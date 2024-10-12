@@ -44,17 +44,15 @@
     const iframe = document.getElementById("chatbot-iframe");
     console.log("Iframe element:", iframe);
 
-    // Get the current URL to use as the iframe source
-    const currentURL = window.location.href; 
-    console.log("Current URL:", currentURL);
-
-    if (assistantName && assistantId) {
-        const iframeSrc = `${currentURL}?bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
-        console.log("Iframe source URL:", iframeSrc);
-        iframe.src = iframeSrc;
-    } else {
-        console.error("Assistant name or ID not provided.");
-    }
+    // Define the base URL for the chatbot (replace with your actual endpoint)
+    const baseURL = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
+    
+    // Construct the iframe source URL
+    const iframeSrc = `${baseURL}?bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+    console.log("Iframe source URL:", iframeSrc);
+    
+    // Set the iframe source
+    iframe.src = iframeSrc;
 
     // Show the chatbot when the icon is clicked
     document.getElementById("chatbot-icon").onclick = function () {
@@ -76,7 +74,7 @@
         if (event.data.type === "changeBgColor") {
             console.log("Changing background color to:", event.data.bgColor);
             localStorage.setItem('chatbot-bg-color', event.data.bgColor);
-            const newIframeSrc = `${currentURL}?bgColor=${encodeURIComponent(event.data.bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+            const newIframeSrc = `${baseURL}?bgColor=${encodeURIComponent(event.data.bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
             console.log("Updated iframe source URL:", newIframeSrc);
             iframe.src = newIframeSrc;
 
