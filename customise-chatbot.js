@@ -23,8 +23,8 @@
                     <div id="assistant-embed" style="position:fixed;bottom:20px;right:20px;width:750px;height:530px;border:1px solid #ccc;border-radius:10px;display:none;background-color:${color};">
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background-color:#f0f0f0;border-top-left-radius:10px;border-top-right-radius:10px;">
                             <h4 style="margin:0;font-size:16px;">${assistantName} Assistant</h4>
-                            <button id="minimize-button" style="border:none;background:transparent;cursor:pointer;font-size:20px;">
-                                <i class="fas fa-chevron-down" style="color:#ff4d4f;"></i>
+                            <button id="minimize-button" style="border:none;background:transparent;cursor:pointer;font-size:20px;padding-right:10px;">
+                                <i class="fas fa-times" style="color:#ff4d4f;font-size:24px;"></i>
                             </button>
                         </div>
                         <iframe id="chatbot-iframe" width="100%" height="100%" 
