@@ -1,16 +1,19 @@
 (function (window) {
     window.YourChatbot = {
-        init: function (options) {
-            console.log("Chatbot API initialized with options:", options);
+        init: function () {
+            // Retrieve the script tag
+            const scriptTag = document.querySelector('script[src*="customise-chatbot.js"]');
 
-            const assistantId = options.assistantId;
-            const bgColor = options.styles.bgColor || 'rgb(247, 245, 242)';
-            const textColor = options.styles.textColor || '#d1d5db';
-            const fontSize = options.styles.fontSize || '16px';
-            const assistantName = options.assistantName || 'Assistant';
+            // Get the attributes from the script tag
+            const assistantName = scriptTag.getAttribute('data-assistant-name');
+            const assistantId = scriptTag.getAttribute('data-assistant-id');
+            const bgColor = scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)';
+            const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db';
+            const fontSize = scriptTag.getAttribute('data-font-size') || '16px';
 
-            console.log(`assistantId: ${assistantId}, bgColor: ${bgColor}, textColor: ${textColor}, fontSize: ${fontSize}, assistantName: ${assistantName}`);
+            console.log("Chatbot API initialized with options:", { assistantName, assistantId, bgColor, textColor, fontSize });
 
+            // Create the container for the chatbot
             const container = document.createElement("div");
             container.innerHTML = `
                 <div id="assistant-embed-container">
@@ -25,56 +28,36 @@
                             </button>
                         </div>
                         <iframe id="chatbot-iframe" width="100%" height="100%" 
-                style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor};" 
-                title="Custom Chatbot"></iframe>
+                            style="border: none; border-radius: 0 0 10px 10px; background-color: ${bgColor};" 
+                            title="Custom Chatbot">
+                        </iframe>
                     </div>
                 </div>
             `;
-
-            console.log("Container created and appended to body.");
             document.body.appendChild(container);
 
             const iframe = document.getElementById("chatbot-iframe");
             const baseURL = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
             const iframeSrc = `${baseURL}?bgColor=${encodeURIComponent(bgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
-            console.log(`iframe source set to: ${iframeSrc}`);
+            console.log(`Iframe source set to: ${iframeSrc}`);
             iframe.src = iframeSrc;
 
+            // Handle chatbot icon click
             document.getElementById("chatbot-icon").onclick = function () {
                 console.log("Chatbot icon clicked, opening chat window.");
                 document.getElementById("assistant-embed").style.display = "block";
                 document.getElementById("chatbot-icon").style.display = "none";
             };
 
+            // Handle minimize button click
             document.getElementById("minimize-button").onclick = function () {
                 console.log("Minimize button clicked, closing chat window.");
                 document.getElementById("assistant-embed").style.display = "none";
                 document.getElementById("chatbot-icon").style.display = "flex";
             };
-
-            // Pass styles to the iframe once it loads
-            iframe.onload = function () {
-                console.log("Iframe loaded. Sending style update to iframe.");
-                iframe.contentWindow.postMessage({
-                    type: 'changeChatbotStyle',
-                    styles: options.styles
-                }, '*');
-            };
-
-            // Listen for incoming postMessage to handle dynamic updates
-            window.addEventListener("message", function (event) {
-                console.log("Received postMessage event:", event.data);
-                if (event.data.type === "changeBgColor") {
-                    const newBgColor = event.data.bgColor;
-                    console.log(`Changing background color to: ${newBgColor}`);
-                    const newIframeSrc = `${baseURL}?bgColor=${encodeURIComponent(newBgColor)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
-                    iframe.src = newIframeSrc;
-                    localStorage.setItem('chatbot-bg-color', newBgColor);
-                    console.log("Background color changed and stored in localStorage.");
-                }
-            }, false);
-
-            console.log("Chatbot initialization complete.");
         }
     };
+
+    // Initialize the chatbot on load
+    window.YourChatbot.init();
 })(window);
