@@ -1,24 +1,20 @@
 (function (window) {
     window.YourChatbot = {
         init: function () {
-            // Retrieve the script tag
             const scriptTag = document.querySelector('script[src*="customise-chatbot.js"]');
 
             const link = document.createElement("link");
             link.rel = "stylesheet";
             link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
             document.head.appendChild(link);
-
-            // Get the attributes from the script tag
             const assistantName = scriptTag.getAttribute('data-assistant-name');
             const assistantId = scriptTag.getAttribute('data-assistant-id');
-            const color = scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)'; // Using "color" for background
+            const color = scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)'; 
             const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db';
             const fontSize = scriptTag.getAttribute('data-font-size') || '16px';
 
             console.log("Chatbot API initialized with options:", { assistantName, assistantId, color, textColor, fontSize });
 
-            // Create the container for the chatbot
             const container = document.createElement("div");
             container.innerHTML = `
                 <div id="assistant-embed-container">
@@ -44,19 +40,16 @@
             const iframe = document.getElementById("chatbot-iframe");
             // const baseURL = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
             const baseURL = `http://localhost:3000/assistants/${assistantName}/${assistantId}`;
-            // Modified URL parameters to "color", "textColor", and "fontSize"
             const iframeSrc = `${baseURL}?color=${encodeURIComponent(color)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
             console.log(`Iframe source set to: ${iframeSrc}`);
             iframe.src = iframeSrc;
 
-            // Handle chatbot icon click
             document.getElementById("chatbot-icon").onclick = function () {
                 console.log("Chatbot icon clicked, opening chat window.");
                 document.getElementById("assistant-embed").style.display = "block";
                 document.getElementById("chatbot-icon").style.display = "none";
             };
 
-            // Handle minimize button click
             document.getElementById("minimize-button").onclick = function () {
                 console.log("Minimize button clicked, closing chat window.");
                 document.getElementById("assistant-embed").style.display = "none";
