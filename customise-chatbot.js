@@ -3,19 +3,23 @@
         init: function () {
             const scriptTag = document.querySelector('script[src*="customise-chatbot.js"]');
 
+            // Load Font Awesome
             const link = document.createElement("link");
             link.rel = "stylesheet";
             link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css";
             document.head.appendChild(link);
 
+            // Extract attributes from script tag
             const assistantName = scriptTag.getAttribute('data-assistant-name');
             const assistantId = scriptTag.getAttribute('data-assistant-id');
             const color = scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)';
             const textColor = scriptTag.getAttribute('data-text-color') || '#d1d5db';
             const fontSize = scriptTag.getAttribute('data-font-size') || '16px';
+            const themeColor = scriptTag.getAttribute('data-theme-color') || '#0F91F2';
 
-            console.log("Chatbot API initialized with options:", { assistantName, assistantId, color, textColor, fontSize });
+            console.log("Chatbot API initialized with options:", { assistantName, assistantId, color, textColor, fontSize, themeColor });
 
+            // Create container elements
             const container = document.createElement("div");
             container.innerHTML = `
                 <div id="assistant-embed-container">
@@ -23,7 +27,7 @@
                         <img src="https://github.com/afshansji/embeded-chatbot/blob/main/Bot%201.png?raw=true" alt="Chatbot" style="width:130px;height:130px;object-fit:cover;" />
                     </div>
                     <div id="assistant-embed" style="position:fixed;bottom:20px;right:20px;width:510px;height:580px;border:1px solid #ccc;border-radius:10px;display:none;background-color:${color};z-index:9999;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background: linear-gradient(90deg, #1969E9 0%, #05B8FB 100%);border-top-left-radius:10px;border-top-right-radius:10px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background: ${themeColor};border-top-left-radius:10px;border-top-right-radius:10px;">
                             <h4 style="margin:0;color:white;font-size:16px;">${assistantName} Assistant</h4>
                              <button id="minimize-button" style="border:none;background:transparent;cursor:pointer;font-size:20px;">
                                 <i class="fas fa-chevron-down" style="color:#ffffff;"></i>
@@ -63,7 +67,7 @@
             const iframe = document.getElementById("chatbot-iframe");
             // const baseURL = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
             const baseURL = "http://localhost:3000/assistants/Course-Genie/asst_dndP3WOg68TfrVydoTmZtBIz";
-const iframeSrc = `${baseURL}?color=${encodeURIComponent(color)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}&isAuthenticated=true`;
+            const iframeSrc = `${baseURL}?color=${encodeURIComponent(color)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}&themeColor=${encodeURIComponent(themeColor)}&isAuthenticated=true`;
             console.log(`Iframe source set to: ${iframeSrc}`);
             iframe.src = iframeSrc;
 
