@@ -63,7 +63,7 @@
             const iframe = document.getElementById("chatbot-iframe");
             // const baseURL = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
             const baseURL = "http://localhost:3000/assistants/ww/asst_XBvuBO1mDOGBDg5CLXdXEGb6";
-            const iframeSrc = `${baseURL}?color=${encodeURIComponent(color)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}`;
+const iframeSrc = `${baseURL}?color=${encodeURIComponent(color)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}&isAuthenticated=true`;
             console.log(`Iframe source set to: ${iframeSrc}`);
             iframe.src = iframeSrc;
 
