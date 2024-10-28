@@ -86,14 +86,14 @@
 
             // Dynamically set the fill color of all SVG paths with #0D6EFD to themeColor
             const chatbotIconSVG = document.getElementById("chatbot-icon-svg");
-            // if (chatbotIconSVG) {
-            //     const paths = chatbotIconSVG.querySelectorAll("path");
-            //     paths.forEach(path => {
-            //         if (path.getAttribute("fill") === "#0D6EFD") {
-            //             path.setAttribute("fill", themeColor); // Update the fill color to themeColor
-            //         }
-            //     });
-            // }
+            if (chatbotIconSVG) {
+                const paths = chatbotIconSVG.querySelectorAll("path");
+                paths.forEach(path => {
+                    if (path.getAttribute("fill") === "#0D6EFD") {
+                        path.setAttribute("fill", themeColor); // Update the fill color to themeColor
+                    }
+                });
+            }
         }
     };
 
