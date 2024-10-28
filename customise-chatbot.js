@@ -3,13 +3,12 @@
         init: function () {
             const scriptTag = document.querySelector('script[src*="customise-chatbot.js"]');
 
-            // Load Font Awesome
             const link = document.createElement("link");
             link.rel = "stylesheet";
             link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css";
             document.head.appendChild(link);
 
-            // Extract attributes from script tag
+
             const assistantName = scriptTag.getAttribute('data-assistant-name');
             const assistantId = scriptTag.getAttribute('data-assistant-id');
             const color = scriptTag.getAttribute('data-bg-color') || 'rgb(247, 245, 242)';
@@ -19,7 +18,7 @@
 
             console.log("Chatbot API initialized with options:", { assistantName, assistantId, color, textColor, fontSize, themeColor });
 
-            // Create container elements
+
             const container = document.createElement("div");
             container.innerHTML = `
                 <div id="assistant-embed-container">
@@ -108,11 +107,10 @@
                 });
             }
 
-            // Call the function to set the initial color
+
             updateSVGColor();
         }
     };
 
-    // Initialize the chatbot on load
     window.YourChatbot.init();
 })(window);
