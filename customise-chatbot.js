@@ -56,12 +56,12 @@
                         width: 150px;
                         height: 150px;
                     }
-                    #chatbot-icon svg {
-                        width: 130px;
-                        height: 130px;
-                        object-fit: cover;
-                        border-radius: 0;
-                    }
+                    // #chatbot-icon svg {
+                    //     width: 130px;
+                    //     height: 130px;
+                    //     object-fit: cover;
+                    //     border-radius: 0;
+                    // }
                 </style>
             `;
             document.body.appendChild(container);
