@@ -24,7 +24,10 @@
             container.innerHTML = `
                 <div id="assistant-embed-container">
                     <div id="chatbot-icon" style="position:fixed;bottom:40px;right:50px;width:150px;height:150px;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:bounce 2s infinite;z-index:9999;">
-                        <img src="https://github.com/afshansji/embeded-chatbot/blob/main/Bot%201.png?raw=true" alt="Chatbot" style="width:130px;height:130px;object-fit:cover;" />
+                        <!-- Replace the img tag with your SVG directly here -->
+                        <svg id="chatbot-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="130px" height="130px" style="object-fit:cover;">
+                            <path fill="#0D6EFD" opacity="1.000000" stroke="none" d="M50 5 C75 5, 95 25, 95 50 C95 75, 75 95, 50 95 C25 95, 5 75, 5 50 C5 25, 25 5, 50 5 z" />
+                        </svg>
                     </div>
                     <div id="assistant-embed" style="position:fixed;bottom:20px;right:20px;width:510px;height:580px;border:1px solid #ccc;border-radius:10px;display:none;background-color:${color};z-index:9999;">
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background: ${themeColor};border-top-left-radius:10px;border-top-right-radius:10px;">
@@ -54,7 +57,7 @@
                         width: 150px;
                         height: 150px;
                     }
-                    #chatbot-icon img {
+                    #chatbot-icon svg {
                         width: 130px;
                         height: 130px;
                         object-fit: cover;
@@ -65,7 +68,6 @@
             document.body.appendChild(container);
 
             const iframe = document.getElementById("chatbot-iframe");
-            // const baseURL = `https://tutorgpt.managedcoder.com/assistants/${assistantName}/${assistantId}`;
             const baseURL = "http://localhost:3000/assistants/Course-Genie/asst_dndP3WOg68TfrVydoTmZtBIz";
             const iframeSrc = `${baseURL}?color=${encodeURIComponent(color)}&textColor=${encodeURIComponent(textColor)}&fontSize=${encodeURIComponent(fontSize)}&themeColor=${encodeURIComponent(themeColor)}&isAuthenticated=true`;
             console.log(`Iframe source set to: ${iframeSrc}`);
@@ -82,6 +84,13 @@
                 document.getElementById("assistant-embed").style.display = "none";
                 document.getElementById("chatbot-icon").style.display = "flex";
             };
+
+            // Dynamically set the fill color of the SVG path based on themeColor
+            const chatbotIconSVG = document.getElementById("chatbot-icon-svg");
+            const path = chatbotIconSVG.querySelector("path"); // Select the path in the SVG
+            if (path) {
+                path.setAttribute("fill", themeColor); // Set fill color
+            }
         }
     };
 
