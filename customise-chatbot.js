@@ -25,7 +25,7 @@
                 <div id="assistant-embed-container">
                     <div id="chatbot-icon" style="position:fixed;bottom:40px;right:50px;width:150px;height:150px;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:bounce 2s infinite;z-index:9999;">
                         <svg id="chatbot-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="130px" height="130px" style="object-fit:cover;">
-                            <path fill="#0D6EFD" opacity="1.000000" stroke="none" d="M50 5 C75 5, 95 25, 95 50 C95 75, 75 95, 50 95 C25 95, 5 75, 5 50 C5 25, 25 5, 50 5 z" />
+                            <path fill="${themeColor}" opacity="1.000000" stroke="none" d="M50 5 C75 5, 95 25, 95 50 C95 75, 75 95, 50 95 C25 95, 5 75, 5 50 C5 25, 25 5, 50 5 z" />
                         </svg>
                     </div>
                     <div id="assistant-embed" style="position:fixed;bottom:20px;right:20px;width:510px;height:580px;border:1px solid #ccc;border-radius:10px;display:none;background-color:${color};z-index:9999;">
@@ -56,12 +56,6 @@
                         width: 150px;
                         height: 150px;
                     }
-                    // #chatbot-icon svg {
-                    //     width: 130px;
-                    //     height: 130px;
-                    //     object-fit: cover;
-                    //     border-radius: 0;
-                    // }
                 </style>
             `;
             document.body.appendChild(container);
@@ -84,16 +78,16 @@
                 document.getElementById("chatbot-icon").style.display = "flex";
             };
 
-            // Dynamically set the fill color of all SVG paths with #0D6EFD to themeColor
-            const chatbotIconSVG = document.getElementById("chatbot-icon-svg");
-            if (chatbotIconSVG) {
-                const paths = chatbotIconSVG.querySelectorAll("path");
-                paths.forEach(path => {
-                    if (path.getAttribute("fill") === "#0D6EFD") {
-                        path.setAttribute("fill", themeColor); // Update the fill color to themeColor
-                    }
+            // Function to update SVG fills dynamically
+            function updateSVGColor() {
+                const svgPaths = document.querySelectorAll('#chatbot-icon-svg path');
+                svgPaths.forEach(path => {
+                    path.setAttribute('fill', themeColor);
                 });
             }
+
+            // Call the function to set the initial color
+            updateSVGColor();
         }
     };
 
